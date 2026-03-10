@@ -99,13 +99,13 @@ The SDK feeds the compiler.
 The IR is the canonical system model.
 
 It represents the machine as a structured graph of:
-	•	bodies
-	•	joints
-	•	actuators
-	•	electronics
-	•	materials
-	•	constraints
-	•	manufacturing assumptions
+- bodies
+- joints
+- actuators
+- electronics
+- materials
+- constraints
+- manufacturing assumptions
 
 The IR is machine-friendly but inspectable.
 
@@ -125,10 +125,10 @@ Material: PLA
 Tolerance: ±0.2mm
 
 The compiler must respect:
-	•	machine limits
-	•	material properties
-	•	achievable tolerances
-	•	available tools
+- machine limits
+- material properties
+- achievable tolerances
+- available tools
 
 Manufacturing contexts define what designs are actually buildable.
 
@@ -139,37 +139,37 @@ The compiler transforms the IR through multiple passes.
 Example passes:
 
 Validation
-	•	structural checks
-	•	kinematic feasibility
-	•	load limits
+- structural checks
+- kinematic feasibility
+- load limits
 
 Optimization
-	•	material usage
-	•	structural reinforcement
-	•	part count reduction
+- material usage
+- structural reinforcement
+- part count reduction
 
 Manufacturability
-	•	print orientation
-	•	support generation
-	•	tool access
+- print orientation
+- support generation
+- tool access
 
 Assembly
-	•	fasteners
-	•	cable routing
-	•	part order
+- fasteners
+- cable routing
+- part order
 
 Each pass refines the IR.
 
 ### 6. Outputs
 
 The compiler produces artifacts required to build the system:
-	•	CAD models
-	•	STL meshes
-	•	G-code
-	•	PCB layouts
-	•	BOM (bill of materials)
-	•	assembly instructions
-	•	calibration procedures
+- CAD models
+- STL meshes
+- G-code
+- PCB layouts
+- BOM (bill of materials)
+- assembly instructions
+- calibration procedures
 
 These artifacts are derived from the IR.
 
@@ -184,9 +184,9 @@ Material: PLA
 Process: FDM 3D printing
 
 Assumptions:
-	•	layer height: 0.2mm
-	•	typical tolerance: ±0.2mm
-	•	build volume: 256 × 256 × 256 mm
+- layer height: 0.2mm
+- typical tolerance: ±0.2mm
+- build volume: 256 × 256 × 256 mm
 
 The compiler will initially target single-process manufacturing.
 
@@ -195,10 +195,10 @@ The compiler will initially target single-process manufacturing.
 The first example artifact will be a simple fidget toy.
 
 Reasons:
-	•	minimal mechanical complexity
-	•	printable in PLA
-	•	easy to validate
-	•	no electronics required
+- minimal mechanical complexity
+- printable in PLA
+- easy to validate
+- no electronics required
 
 Example spec:
 
@@ -243,10 +243,10 @@ AI is extremely good at navigating large design spaces.
 However, AI cannot currently translate intent directly into buildable physical systems.
 
 The missing layer is a machine design compiler that:
-	•	understands physics
-	•	respects manufacturing limits
-	•	integrates mechanical and electronic systems
-	•	produces real artifacts
+- understands physics
+- respects manufacturing limits
+- integrates mechanical and electronic systems
+- produces real artifacts
 
 This repository is an early experiment toward that system.
 
@@ -255,18 +255,18 @@ This repository is an early experiment toward that system.
 Very early prototype.
 
 Goals for the first milestone:
-	•	define manufacturing context model
-	•	define minimal IR
-	•	implement trivial compiler pipeline
-	•	generate a printable object
+- define manufacturing context model
+- define minimal IR
+- implement trivial compiler pipeline
+- generate a printable object
 
 ## Long-Term Vision
 
 Eventually this system could enable:
-	•	AI-generated robotics
-	•	automated factory design
-	•	self-improving machine ecosystems
-	•	programmable manufacturing pipelines
+- AI-generated robotics
+- automated factory design
+- self-improving machine ecosystems
+- programmable manufacturing pipelines
 
 The long arc is simple:
 
