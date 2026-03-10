@@ -59,11 +59,13 @@ This can include:
 
 Example:
 
-Build a small robotic arm for desk use
-Payload: 500g
-Reach: 300mm
-Manufacturing: 3D printing
-Material: PLA
+Build a small robotic arm for desk use.
+| | |
+|---|---|
+| Payload | 500g |
+| Reach | 300mm |
+| Manufacturing | 3D printing |
+| Material | PLA |
 
 This spec is translated into the internal system representation.
 
@@ -119,10 +121,12 @@ This is analogous to a CPU architecture in software compilation.
 
 Example:
 
-Target: Home workshop
-Printer: Bambu P1S
-Material: PLA
-Tolerance: ±0.2mm
+| | |
+|---|---|
+| **Target** | Home workshop |
+| **Printer** | Bambu P1S |
+| **Material** | PLA |
+| **Tolerance** | ±0.2mm |
 
 The compiler must respect:
 - machine limits
@@ -138,22 +142,22 @@ The compiler transforms the IR through multiple passes.
 
 Example passes:
 
-Validation
+**Validation**
 - structural checks
 - kinematic feasibility
 - load limits
 
-Optimization
+**Optimisation**
 - material usage
 - structural reinforcement
 - part count reduction
 
-Manufacturability
+**Manufacturability**
 - print orientation
 - support generation
 - tool access
 
-Assembly
+**Assembly**
 - fasteners
 - cable routing
 - part order
@@ -178,10 +182,11 @@ These artifacts are derived from the IR.
 To keep the project grounded, the first prototype is intentionally constrained.
 
 Manufacturing Target
-
-Machine: Bambu P1S
-Material: PLA
-Process: FDM 3D printing
+| | |
+|---|---|
+| Machine | Bambu P1S |
+| Material | PLA |
+| Process | FDM 3D printing |
 
 Assumptions:
 - layer height: 0.2mm
@@ -202,10 +207,12 @@ Reasons:
 
 Example spec:
 
-Object: Fidget spinner
-Diameter: 60mm
-Material: PLA
-Manufacturing: FDM printing
+| | |
+|---|---|
+| Object | Fidget spinner |
+| Diameter | 60mm |
+| Material | PLA |
+| Manufacturing: FDM printing |
 
 ## Repository Structure
 
@@ -272,15 +279,9 @@ The long arc is simple:
 
 Intent → Machines
 
-A small piece of practical advice from the trenches of systems design.
+## Next steps
 
-Right now the most important thing in this repo is **not code**. It’s **clarity of abstraction boundaries**. Most projects like this fail because the IR becomes a garbage pile where every concept leaks into every other.
-
-If you want, the next extremely useful step would be for me to help you define:
-
-1. **`ManufacturingContext` schema**
+1. **`ManufacturingContext` schema** - Done
 2. **Minimal IR graph structure**
 3. **First Rust crate layout**
 4. **A toy fidget-spinner example**
-
-That’s the moment where this stops being philosophy and becomes an executable experiment.
