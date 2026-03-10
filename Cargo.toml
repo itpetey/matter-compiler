@@ -1,3 +1,3 @@
 [workspace]
-members = ["crates/design-sdk", "crates/ir", "crates/manufacturing-context"]
 resolver = "2"
+members = ["crates/design-sdk", "crates/ir", "crates/manufacturing-context"]
