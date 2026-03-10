@@ -2,7 +2,9 @@
 
 > Turning intent into manufacturable reality.
 
-This project explores a new kind of compiler: one that transforms **high-level specifications of physical machines** into **manufacturable artifacts**.
+This repository uses International English spelling exclusively in documentation, comments, and user-facing text.
+
+This project explores a new kind of compiler: one that transforms **high-level specifications of physical machines** into **manufacturable artefacts**.
 
 Instead of compiling software into machine code, the goal is to compile **design intent** into **physical systems**.
 
@@ -13,7 +15,7 @@ The system is designed to bridge the gap between:
 - Physical manufacturing constraints
 - Real-world fabrication outputs (CAD, CAM, ECAD, G-code, etc.)
 
-The long-term vision is a **robot / machine compiler** that can reason about:
+The long-term vision is a **robot/machine compiler** that can reason about:
 
 - mechanical structure
 - electronics
@@ -21,7 +23,7 @@ The long-term vision is a **robot / machine compiler** that can reason about:
 - manufacturing processes
 - assembly constraints
 
-and produce designs that can actually be built.
+...and produce designs that can actually be built.
 
 This repository is an early prototype of that architecture.
 
@@ -29,17 +31,17 @@ This repository is an early prototype of that architecture.
 
 Modern software development works because we have:
 
-Source Code → Compiler → Machine Code
+`Source Code → Compiler → Machine Code`
 
 For physical systems, the pipeline is fragmented:
 
-Requirements → CAD → Simulation → Electronics design → Manufacturing planning → Fabrication
+`Requirements → CAD → Simulation → Electronics design → Manufacturing planning → Fabrication`
 
 Each step uses different tools and representations.
 
 This project explores a unified pipeline:
 
-Human Spec → Design SDK → Intermediate Representation (IR) → Compiler Passes → Manufacturing Outputs
+`Human Spec → Design SDK → Intermediate Representation (IR) → Compiler Passes → Manufacturing Outputs`
 
 Where the compiler understands both **design intent** and **manufacturing constraints**.
 
@@ -47,7 +49,7 @@ Where the compiler understands both **design intent** and **manufacturing constr
 
 ### 1. Human Specification
 
-The system begins with a **structured specification** describing a machine or artifact.
+The system begins with a **structured specification** describing a machine or artefact.
 
 This can include:
 
@@ -111,7 +113,7 @@ It represents the machine as a structured graph of:
 
 The IR is machine-friendly but inspectable.
 
-It is versioned and becomes the core artifact of the system.
+It is versioned and becomes the core artefact of the system.
 
 ### 4. Manufacturing Context
 
@@ -166,7 +168,7 @@ Each pass refines the IR.
 
 ### 6. Outputs
 
-The compiler produces artifacts required to build the system:
+The compiler produces artefacts required to build the system:
 - CAD models
 - STL meshes
 - G-code
@@ -175,7 +177,7 @@ The compiler produces artifacts required to build the system:
 - assembly instructions
 - calibration procedures
 
-These artifacts are derived from the IR.
+These artefacts are derived from the IR.
 
 ## Initial Prototype Scope
 
@@ -197,7 +199,7 @@ The compiler will initially target single-process manufacturing.
 
 ## Example Design Target
 
-The first example artifact will be a simple fidget toy.
+The first example artefact will be a simple fidget toy.
 
 Reasons:
 - minimal mechanical complexity
@@ -212,7 +214,7 @@ Example spec:
 | Object | Fidget spinner |
 | Diameter | 60mm |
 | Material | PLA |
-| Manufacturing: FDM printing |
+| Manufacturing | FDM printing |
 
 ## Repository Structure
 
@@ -240,7 +242,7 @@ matter-compiler/
 - **manufacturing-context** - Defines machine capabilities and constraints.
 - **design-sdk** - Human/AI facing API for describing physical systems.
 - **ir** - Intermediate representation for machine designs.
-- **compiler** - Compilation pipeline and optimization passes.
+- **compiler** - Compilation pipeline and optimisation passes.
 - **examples** - Example designs (fidget toy, simple mechanisms).
 
 ## Why This Matters
@@ -253,7 +255,7 @@ The missing layer is a machine design compiler that:
 - understands physics
 - respects manufacturing limits
 - integrates mechanical and electronic systems
-- produces real artifacts
+- produces real artefacts
 
 This repository is an early experiment toward that system.
 
