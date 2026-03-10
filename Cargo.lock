@@ -3,5 +3,9 @@
 version = 4
 
 [[package]]
+<<<<<<< Updated upstream
 name = "manufacturing-context"
+=======
+name = "ir"
+>>>>>>> Stashed changes
 version = "0.1.0"
