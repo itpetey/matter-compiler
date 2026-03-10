@@ -25,9 +25,7 @@ and produce designs that can actually be built.
 
 This repository is an early prototype of that architecture.
 
----
-
-# Core Idea
+## Core Idea
 
 Modern software development works because we have:
 
@@ -35,39 +33,19 @@ Source Code → Compiler → Machine Code
 
 For physical systems, the pipeline is fragmented:
 
-Requirements
-↓
-CAD
-↓
-Simulation
-↓
-Electronics design
-↓
-Manufacturing planning
-↓
-Fabrication
+Requirements → CAD → Simulation → Electronics design → Manufacturing planning → Fabrication
 
 Each step uses different tools and representations.
 
 This project explores a unified pipeline:
 
-Human Spec
-↓
-Design SDK
-↓
-Intermediate Representation (IR)
-↓
-Compiler Passes
-↓
-Manufacturing Outputs
+Human Spec → Design SDK → Intermediate Representation (IR) → Compiler Passes → Manufacturing Outputs
 
 Where the compiler understands both **design intent** and **manufacturing constraints**.
 
----
+## Key Concepts
 
-# Key Concepts
-
-## 1. Human Specification
+### 1. Human Specification
 
 The system begins with a **structured specification** describing a machine or artifact.
 
@@ -89,9 +67,7 @@ Material: PLA
 
 This spec is translated into the internal system representation.
 
----
-
-## 2. Design SDK
+### 2. Design SDK
 
 The Design SDK provides a **deterministic language for expressing physical systems**.
 
@@ -114,12 +90,11 @@ let arm = RobotArm::new()
     .reach(0.3)
     .actuator(Servo::standard())
     .material(Material::PLA);
+```
 
 The SDK feeds the compiler.
 
-⸻
-
-3. Intermediate Representation (IR)
+### 3. Intermediate Representation (IR)
 
 The IR is the canonical system model.
 
@@ -136,9 +111,7 @@ The IR is machine-friendly but inspectable.
 
 It is versioned and becomes the core artifact of the system.
 
-⸻
-
-4. Manufacturing Context
+### 4. Manufacturing Context
 
 Every compilation target assumes a manufacturing environment.
 
@@ -159,9 +132,7 @@ The compiler must respect:
 
 Manufacturing contexts define what designs are actually buildable.
 
-⸻
-
-5. Compiler Passes
+### 5. Compiler Passes
 
 The compiler transforms the IR through multiple passes.
 
@@ -189,9 +160,7 @@ Assembly
 
 Each pass refines the IR.
 
-⸻
-
-6. Outputs
+### 6. Outputs
 
 The compiler produces artifacts required to build the system:
 	•	CAD models
@@ -204,9 +173,7 @@ The compiler produces artifacts required to build the system:
 
 These artifacts are derived from the IR.
 
-⸻
-
-Initial Prototype Scope
+## Initial Prototype Scope
 
 To keep the project grounded, the first prototype is intentionally constrained.
 
@@ -223,9 +190,7 @@ Assumptions:
 
 The compiler will initially target single-process manufacturing.
 
-⸻
-
-Example Design Target
+## Example Design Target
 
 The first example artifact will be a simple fidget toy.
 
@@ -242,11 +207,9 @@ Diameter: 60mm
 Material: PLA
 Manufacturing: FDM printing
 
+## Repository Structure
 
-⸻
-
-Repository Structure
-
+```
 matter-compiler/
 │
 ├─ README.md
@@ -265,30 +228,15 @@ matter-compiler/
 │  └─ examples/
 │
 └─ docs/
+```
 
-manufacturing-context
+- **manufacturing-context** - Defines machine capabilities and constraints.
+- **design-sdk** - Human/AI facing API for describing physical systems.
+- **ir** - Intermediate representation for machine designs.
+- **compiler** - Compilation pipeline and optimization passes.
+- **examples** - Example designs (fidget toy, simple mechanisms).
 
-Defines machine capabilities and constraints.
-
-design-sdk
-
-Human/AI facing API for describing physical systems.
-
-ir
-
-Intermediate representation for machine designs.
-
-compiler
-
-Compilation pipeline and optimization passes.
-
-examples
-
-Example designs (fidget toy, simple mechanisms).
-
-⸻
-
-Why This Matters
+## Why This Matters
 
 AI is extremely good at navigating large design spaces.
 
@@ -302,9 +250,7 @@ The missing layer is a machine design compiler that:
 
 This repository is an early experiment toward that system.
 
-⸻
-
-Status
+## Status
 
 Very early prototype.
 
@@ -314,9 +260,7 @@ Goals for the first milestone:
 	•	implement trivial compiler pipeline
 	•	generate a printable object
 
-⸻
-
-Long-Term Vision
+## Long-Term Vision
 
 Eventually this system could enable:
 	•	AI-generated robotics
@@ -327,15 +271,6 @@ Eventually this system could enable:
 The long arc is simple:
 
 Intent → Machines
-
-
-⸻
-
-License
-
-TBD
-
----
 
 A small piece of practical advice from the trenches of systems design.
 
