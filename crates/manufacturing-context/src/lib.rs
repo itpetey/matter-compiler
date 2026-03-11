@@ -229,8 +229,8 @@ pub use schema::{
 #[cfg(test)]
 mod tests {
     use super::{
-        AvailableTool, BuildVolume, LayerHeight, ManufacturingConstraints,
-        ManufacturingContext, Material, ProcessType, SchemaError, Tolerance,
+        AvailableTool, BuildVolume, LayerHeight, ManufacturingConstraints, ManufacturingContext,
+        Material, ProcessType, SchemaError, Tolerance,
     };
 
     #[test]
@@ -238,15 +238,24 @@ mod tests {
         let prototype = ManufacturingContext::initial_prototype();
 
         assert_eq!(prototype.target.environment.name, "Home workshop");
-        assert_eq!(prototype.target.process, ProcessType::FusedDepositionModeling);
+        assert_eq!(
+            prototype.target.process,
+            ProcessType::FusedDepositionModeling
+        );
         assert_eq!(prototype.target.machine.manufacturer, "Bambu Lab");
         assert_eq!(prototype.target.machine.model, "P1S");
         assert_eq!(prototype.constraints.build_volume.x_mm, 256);
         assert_eq!(prototype.constraints.build_volume.y_mm, 256);
         assert_eq!(prototype.constraints.build_volume.z_mm, 256);
-        assert_eq!(prototype.constraints.supported_materials, vec![Material::Pla]);
+        assert_eq!(
+            prototype.constraints.supported_materials,
+            vec![Material::Pla]
+        );
         assert_eq!(prototype.constraints.nominal_layer_height.millimeters, 0.2);
-        assert_eq!(prototype.constraints.achievable_tolerance.plus_minus_mm, 0.2);
+        assert_eq!(
+            prototype.constraints.achievable_tolerance.plus_minus_mm,
+            0.2
+        );
         assert_eq!(
             prototype.constraints.available_tools,
             vec![AvailableTool::FusedDepositionPrinter]
@@ -255,7 +264,10 @@ mod tests {
 
     #[test]
     fn rejects_invalid_constraint_inputs() {
-        assert_eq!(BuildVolume::new(0, 256, 256), Err(SchemaError::BuildVolumeMustBePositive));
+        assert_eq!(
+            BuildVolume::new(0, 256, 256),
+            Err(SchemaError::BuildVolumeMustBePositive)
+        );
         assert_eq!(
             LayerHeight::new_mm(0.0),
             Err(SchemaError::LayerHeightMustBePositive)
