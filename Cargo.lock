@@ -3,9 +3,17 @@
 version = 4
 
 [[package]]
-<<<<<<< Updated upstream
-name = "manufacturing-context"
-=======
+name = "design-sdk"
+version = "0.1.0"
+dependencies = [
+ "ir",
+ "manufacturing-context",
+]
+
+[[package]]
 name = "ir"
->>>>>>> Stashed changes
+version = "0.1.0"
+
+[[package]]
+name = "manufacturing-context"
 version = "0.1.0"

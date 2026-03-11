@@ -1,7 +1,3 @@
 [workspace]
-<<<<<<< Updated upstream
-members = ["crates/manufacturing-context"]
-=======
-members = ["crates/ir"]
->>>>>>> Stashed changes
+members = ["crates/design-sdk", "crates/ir", "crates/manufacturing-context"]
 resolver = "2"

@@ -214,6 +214,19 @@ Example spec:
 | Material | PLA |
 | Manufacturing | FDM printing |
 
+### Current prototype SDK entry point
+
+The first runnable SDK slice lives in `crates/design-sdk`:
+
+- Author/run the example: `rtk cargo run -p design-sdk --example fidget_spinner`
+- End-to-end verification: `rtk cargo test -p design-sdk --test fidget_spinner_example`
+- Core slice files:
+  - `crates/design-sdk/src/lib.rs` - authoring model and IR lowering contract
+  - `crates/design-sdk/examples/fidget_spinner.rs` - concrete example design
+  - `crates/design-sdk/tests/fidget_spinner_example.rs` - example verification
+
+The example stays within the current prototype limits: a small PLA spinner-like assembly for the Bambu P1S using FDM only, with no downstream CAD or manufacturing generation.
+
 ## Repository Structure
 
 ```
