@@ -1,3 +1,4 @@
+use matter_compiler::compile_prototype;
 use matter_context::{ManufacturingContext, Material};
 use matter_sdk::{
     Assembly, AuthorKind, Connection, ConnectionKind, Constraint, Design, Interface, InterfaceKind,
@@ -34,7 +35,7 @@ pub fn build_design() -> Design {
         Provenance::new(
             AuthorKind::Human,
             "prototype-example",
-            "crates/design-sdk/examples/fidget_spinner.rs",
+            "crates/sdk/examples/fidget_spinner.rs",
         ),
     )
     .with_requirement(Requirement::new(
@@ -47,22 +48,19 @@ pub fn build_design() -> Design {
 #[allow(dead_code)]
 fn main() {
     let design = build_design();
-    let lowered = design.lower_to_ir().expect("example design lowers");
+    let compiled = compile_prototype(&design).expect("example design compiles");
 
     println!("Example: {}", design.name);
     println!(
         "Target: {} {} via {:?}",
-        lowered.manufacturing.target.machine.manufacturer,
-        lowered.manufacturing.target.machine.model,
-        lowered.manufacturing.target.process,
+        compiled.plan.machine.manufacturer, compiled.plan.machine.model, compiled.plan.process,
     );
+    println!("Material: {:?}", compiled.plan.material);
+    println!("Validated parts: {}", compiled.report.validated_part_count);
+    println!("Executed passes: {:?}", compiled.report.executed_passes);
     println!(
-        "Supported materials: {:?}",
-        lowered.manufacturing.constraints.supported_materials
-    );
-    println!(
-        "Lowered graph: {} nodes, {} edges",
-        lowered.graph.nodes().len(),
-        lowered.graph.edges().len()
+        "Compiled graph: {} nodes, {} edges",
+        compiled.node_count(),
+        compiled.edge_count()
     );
 }

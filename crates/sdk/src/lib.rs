@@ -467,12 +467,13 @@ fn validate_label(value: &str, entity: &'static str) -> Result<(), ValidationErr
 fn validate_named_value(name: &str, value: &TypedValue) -> Result<(), ValidationError> {
     validate_label(name, "named value")?;
     if let TypedValue::LengthMm(value_mm) = value
-        && *value_mm <= 0.0 {
-            return Err(ValidationError::InvalidLength {
-                name: name.into(),
-                value_mm: *value_mm,
-            });
-        }
+        && *value_mm <= 0.0
+    {
+        return Err(ValidationError::InvalidLength {
+            name: name.into(),
+            value_mm: *value_mm,
+        });
+    }
 
     Ok(())
 }

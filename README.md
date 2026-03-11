@@ -25,6 +25,8 @@ The long-term vision is a **robot/machine compiler** that can reason about:
 
 This repository is an early prototype of that architecture.
 
+Today, the implemented slice is intentionally small: a deterministic in-memory compiler flow for a single-process PLA artefact on a Bambu Lab P1S. The current crates validate and lower an authored `matter-sdk` design, then `matter-compiler` returns a typed plan and pass report. It does **not** yet generate CAD, STL, G-code, PCB, or assembly outputs.
+
 ## Core Idea
 
 Modern software development works because we have:
@@ -166,7 +168,7 @@ Each pass refines the IR.
 
 ### 6. Outputs
 
-The compiler produces artefacts required to build the system:
+Long term, the compiler could produce artefacts required to build the system:
 - CAD models
 - STL meshes
 - G-code
@@ -175,7 +177,7 @@ The compiler produces artefacts required to build the system:
 - assembly instructions
 - calibration procedures
 
-These artefacts are derived from the IR.
+These artefacts would be derived from the IR. The current prototype stops earlier and returns a deterministic in-memory manufacturing plan/report for the supported PLA-on-P1S flow.
 
 ## Initial Prototype Scope
 
@@ -214,18 +216,32 @@ Example spec:
 | Material | PLA |
 | Manufacturing | FDM printing |
 
-### Current prototype SDK entry point
+### Current prototype flow
 
-The first runnable SDK slice lives in `crates/design-sdk`:
+The first runnable slice lives across `crates/sdk` and `crates/compiler`:
 
-- Author/run the example: `rtk cargo run -p design-sdk --example fidget_spinner`
-- End-to-end verification: `rtk cargo test -p design-sdk --test fidget_spinner_example`
+- Author/run the example: `rtk cargo run -p matter-sdk --example fidget_spinner`
+- Verify the authored example path: `rtk cargo test -p matter-sdk --test fidget_spinner_example`
+- Verify the prototype compiler path: `rtk cargo test -p matter-compiler`
 - Core slice files:
-  - `crates/design-sdk/src/lib.rs` - authoring model and IR lowering contract
-  - `crates/design-sdk/examples/fidget_spinner.rs` - concrete example design
-  - `crates/design-sdk/tests/fidget_spinner_example.rs` - example verification
+  - `crates/sdk/src/lib.rs` - authoring model and IR lowering contract
+  - `crates/sdk/examples/fidget_spinner.rs` - concrete example design
+  - `crates/sdk/tests/fidget_spinner_example.rs` - end-to-end example verification
+  - `crates/compiler/src/lib.rs` - prototype compilation API and typed result types
 
-The example stays within the current prototype limits: a small PLA spinner-like assembly for the Bambu P1S using FDM only, with no downstream CAD or manufacturing generation.
+The verified prototype flow is: author a small PLA spinner-like assembly, lower it deterministically into IR, and compile it into a typed in-memory plan/report for the single supported manufacturing profile.
+
+```rust
+use matter_compiler::{PrototypePass, compile_prototype};
+
+let design = fidget_spinner::build_design();
+let compiled = compile_prototype(&design)?;
+
+assert_eq!(compiled.plan.parts.len(), 2);
+assert_eq!(compiled.report.executed_passes[0], PrototypePass::ValidatePrototypeContext);
+```
+
+This stays within the current prototype limits: single-process PLA on a Bambu Lab P1S, deterministic in-memory compilation, and no real CAD/STL/G-code generation.
 
 ## Repository Structure
 
@@ -236,25 +252,17 @@ matter-compiler/
 │
 ├─ Cargo.toml
 │
-├─ crates/
-│  ├─ manufacturing-context/
-│  │
-│  ├─ design-sdk/
-│  │
-│  ├─ ir/
-│  │
-│  ├─ compiler/
-│  │
-│  └─ examples/
-│
-└─ docs/
+└─ crates/
+   ├─ compiler/
+   ├─ context/
+   ├─ ir/
+   └─ sdk/
 ```
 
-- **manufacturing-context** - Defines machine capabilities and constraints.
-- **design-sdk** - Human/AI facing API for describing physical systems.
-- **ir** - Intermediate representation for machine designs.
-- **compiler** - Compilation pipeline and optimisation passes.
-- **examples** - Example designs (fidget toy, simple mechanisms).
+- **matter-compiler** (`crates/compiler`) - deterministic prototype compilation API and typed plan/report.
+- **matter-context** (`crates/context`) - machine capabilities and manufacturing constraints.
+- **matter-ir** (`crates/ir`) - intermediate representation for machine designs.
+- **matter-sdk** (`crates/sdk`) - authoring API and IR lowering entry point.
 
 ## Why This Matters
 
@@ -277,8 +285,9 @@ Very early prototype.
 Goals for the first milestone:
 - define manufacturing context model
 - define minimal IR
-- implement trivial compiler pipeline
-- generate a printable object
+- implement a deterministic prototype compiler pipeline
+- return a typed in-memory manufacturing plan/report
+- keep the scope to a single PLA-on-P1S process with no real artefact generation yet
 
 ## Long-Term Vision
 
