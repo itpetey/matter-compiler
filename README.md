@@ -292,13 +292,6 @@ The long arc is simple:
 
 Intent → Machines
 
-## Next steps
-
-1. **`ManufacturingContext` schema** - Done
-2. **Minimal IR graph structure**
-3. **First Rust crate layout**
-4. **A toy fidget-spinner example**
-
 ## Repository Conventions
 
 This repository uses International English spelling exclusively in code, documentation, comments, and user-facing text.
