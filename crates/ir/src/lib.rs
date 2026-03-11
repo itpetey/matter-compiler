@@ -626,10 +626,12 @@ mod tests {
             NodeKind::Artifact,
         ];
 
-        assert!(graph
-            .nodes()
-            .values()
-            .all(|node| allowed_kinds.contains(&node.kind)));
+        assert!(
+            graph
+                .nodes()
+                .values()
+                .all(|node| allowed_kinds.contains(&node.kind))
+        );
         assert_eq!(
             graph.node(node_id_by_name(&graph, "design_target")),
             Some(

@@ -1,8 +1,8 @@
-use design_sdk::{
+use matter_context::{ManufacturingContext, Material};
+use matter_sdk::{
     Assembly, AuthorKind, Connection, ConnectionKind, Constraint, Design, Interface, InterfaceKind,
     InterfaceRef, Part, Provenance, Requirement, TypedValue,
 };
-use manufacturing_context::{ManufacturingContext, Material};
 
 pub fn build_design() -> Design {
     Design::new(
@@ -44,6 +44,7 @@ pub fn build_design() -> Design {
     .with_requirement(Requirement::new("max_diameter", TypedValue::LengthMm(60.0)))
 }
 
+#[allow(dead_code)]
 fn main() {
     let design = build_design();
     let lowered = design.lower_to_ir().expect("example design lowers");

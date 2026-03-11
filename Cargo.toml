@@ -1,3 +1,11 @@
 [workspace]
 resolver = "2"
-members = ["crates/design-sdk", "crates/ir", "crates/manufacturing-context"]
+members = ["crates/context", "crates/ir", "crates/sdk"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+description = "Turning intent into manufacturable reality"
+readme = "README.md"
+repository = "https://github.com/itpetey/matter-compiler"
+license = "MPL-2.0"

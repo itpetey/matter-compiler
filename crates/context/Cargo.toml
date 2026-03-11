@@ -1,8 +1,10 @@
 [package]
-name = "matter-ir"
+name = "matter-context"
 version.workspace = true
 edition.workspace = true
 description.workspace = true
 readme.workspace = true
 repository.workspace = true
 license.workspace = true
+
+[dependencies]

@@ -13,7 +13,7 @@ pub mod schema {
         /// Creates a manufacturing context from its target and constraints parts.
         ///
         /// ```rust
-        /// use manufacturing_context::{
+        /// use matter_context::{
         ///     AvailableTool, BuildVolume, LayerHeight, MachineIdentity, ManufacturingConstraints,
         ///     ManufacturingContext, ManufacturingEnvironment, ManufacturingTarget, Material,
         ///     ProcessType, Tolerance,

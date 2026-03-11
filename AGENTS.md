@@ -28,6 +28,8 @@ Use `cargo check` for fast validation, `cargo test` for unit tests and doctests,
 
 ## Coding Style & Naming Conventions
 
+Use the 2024 edition of Rust.
+
 Follow standard Rust style: 4-space indentation, `snake_case` for functions and modules, `PascalCase` for types and enums, and `SCREAMING_SNAKE_CASE` for constants such as `IR_SCHEMA_VERSION`. Keep public APIs small and explicit. Prefer deriving common traits (`Debug`, `Clone`, `PartialEq`) where appropriate.
 
 All public interfaces must be documented with Rust doc comments. Write repository prose in International English. Keep comments and doc examples short, factual, and directly tied to the crate API.

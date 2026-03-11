@@ -2,11 +2,11 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use ir::{
+use matter_context::{ManufacturingContext, Material};
+use matter_ir::{
     Edge, EdgeKind, GraphError, IrGraph, Node, NodeId, NodeKind, Origin, Quantity, RefinementState,
     Value,
 };
-use manufacturing_context::{ManufacturingContext, Material};
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Design {
@@ -790,10 +790,11 @@ fn material_label(material: Material) -> &'static str {
 
 #[cfg(test)]
 mod tests {
-    use ir::{EdgeKind, IrGraph, NodeId, NodeKind, Origin, RefinementState, Value};
-    use manufacturing_context::{
-        AvailableTool, BuildVolume, LayerHeight, ManufacturingConstraints, ProcessType, Tolerance,
+    use matter_context::{
+        AvailableTool, BuildVolume, LayerHeight, MachineIdentity, ManufacturingConstraints,
+        ManufacturingEnvironment, ManufacturingTarget, ProcessType, Tolerance,
     };
+    use matter_ir::{EdgeKind, IrGraph, NodeId, NodeKind, Origin, RefinementState, Value};
 
     use super::*;
 
@@ -881,10 +882,10 @@ mod tests {
     #[test]
     fn rejects_part_materials_that_are_not_supported_by_the_target_context() {
         let unsupported_context = ManufacturingContext {
-            target: manufacturing_context::ManufacturingTarget::new(
-                manufacturing_context::ManufacturingEnvironment::new("Home workshop"),
+            target: ManufacturingTarget::new(
+                ManufacturingEnvironment::new("Home workshop"),
                 ProcessType::FusedDepositionModeling,
-                manufacturing_context::MachineIdentity::new("Bambu Lab", "P1S"),
+                MachineIdentity::new("Bambu Lab", "P1S"),
             ),
             constraints: ManufacturingConstraints::new(
                 BuildVolume::new(256, 256, 256).unwrap(),
@@ -1094,7 +1095,7 @@ mod tests {
         );
         assert_eq!(
             graph.node(outer_diameter).expect("body constraint").attrs["value"],
-            Value::Quantity(ir::Quantity {
+            Value::Quantity(Quantity {
                 value: 60.0,
                 unit: "mm".into(),
             })

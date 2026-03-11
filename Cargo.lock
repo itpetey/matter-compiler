@@ -3,17 +3,17 @@
 version = 4
 
 [[package]]
-name = "design-sdk"
+name = "matter-context"
+version = "0.1.0"
+
+[[package]]
+name = "matter-ir"
+version = "0.1.0"
+
+[[package]]
+name = "matter-sdk"
 version = "0.1.0"
 dependencies = [
- "ir",
- "manufacturing-context",
+ "matter-context",
+ "matter-ir",
 ]
-
-[[package]]
-name = "ir"
-version = "0.1.0"
-
-[[package]]
-name = "manufacturing-context"
-version = "0.1.0"

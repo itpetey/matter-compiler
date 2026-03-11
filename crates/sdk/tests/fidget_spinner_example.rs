@@ -1,8 +1,8 @@
 #[path = "../examples/fidget_spinner.rs"]
 mod fidget_spinner;
 
-use design_sdk::AuthorKind;
-use ir::{EdgeKind, NodeKind, Value};
+use matter_ir::{EdgeKind, NodeKind, Value};
+use matter_sdk::AuthorKind;
 
 #[test]
 fn fidget_spinner_example_validates_and_lowers_end_to_end() {
@@ -30,10 +30,12 @@ fn fidget_spinner_example_validates_and_lowers_end_to_end() {
     assert!(graph.nodes().values().any(|node| node.name == "spinner"));
     assert!(graph.nodes().values().any(|node| node.name == "body"));
     assert!(graph.nodes().values().any(|node| node.name == "cap"));
-    assert!(graph
-        .edges()
-        .values()
-        .any(|edge| edge.kind == EdgeKind::Connects));
+    assert!(
+        graph
+            .edges()
+            .values()
+            .any(|edge| edge.kind == EdgeKind::Connects)
+    );
     assert_eq!(graph.nodes().len(), 11);
     assert_eq!(graph.edges().len(), 12);
 }
