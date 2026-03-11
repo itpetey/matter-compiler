@@ -120,6 +120,24 @@ fn rejects_dimensions_that_exceed_the_build_volume() {
 }
 
 #[test]
+fn rejects_shapes_outside_the_supported_spinner_geometry_path() {
+    let design = prototype_design()
+        .with_requirement(Requirement::new(
+            "artefact_class",
+            TypedValue::Text("fidget_toy".into()),
+        ))
+        .with_requirement(Requirement::new("max_diameter", TypedValue::LengthMm(60.0)));
+
+    assert_eq!(
+        compile_prototype(&design),
+        Err(CompileError::UnsupportedPrototypeShape {
+            design: "fidget_spinner".into(),
+            reason: "missing required spinner constraint cap.retention_depth".into(),
+        })
+    );
+}
+
+#[test]
 fn rejects_later_stage_ir_shapes_and_propagates_lowering_failures() {
     let mut lowered = prototype_design().lower_to_ir().expect("design lowers");
     let process = lowered.graph.add_node(Node::new(

@@ -25,7 +25,7 @@ The long-term vision is a **robot/machine compiler** that can reason about:
 
 This repository is an early prototype of that architecture.
 
-Today, the implemented slice is intentionally small: a deterministic in-memory compiler flow for a single-process PLA artefact on a Bambu Lab P1S. The current crates validate and lower an authored `matter-sdk` design, then `matter-compiler` returns a typed plan and pass report. It does **not** yet generate CAD, STL, G-code, PCB, or assembly outputs.
+Today, the implemented slice is intentionally small: a deterministic in-memory compiler flow for a single-process PLA artefact on a Bambu Lab P1S. The current crates validate and lower an authored `matter-sdk` design, then `matter-compiler` returns a typed plan, pass report, and deterministic ASCII STL artefacts for the supported fidget spinner prototype. It still does **not** provide general CAD modelling, arbitrary STL generation, slicer integration, G-code, PCB, or assembly outputs.
 
 ## Core Idea
 
@@ -177,7 +177,7 @@ Long term, the compiler could produce artefacts required to build the system:
 - assembly instructions
 - calibration procedures
 
-These artefacts would be derived from the IR. The current prototype stops earlier and returns a deterministic in-memory manufacturing plan/report for the supported PLA-on-P1S flow.
+These artefacts would be derived from the IR. The current prototype only implements a narrow first step: deterministic in-memory manufacturing plan/report data plus spinner-first ASCII STL artefacts for the supported PLA-on-P1S flow.
 
 ## Initial Prototype Scope
 
@@ -229,19 +229,21 @@ The first runnable slice lives across `crates/sdk` and `crates/compiler`:
   - `crates/sdk/tests/fidget_spinner_example.rs` - end-to-end example verification
   - `crates/compiler/src/lib.rs` - prototype compilation API and typed result types
 
-The verified prototype flow is: author a small PLA spinner-like assembly, lower it deterministically into IR, and compile it into a typed in-memory plan/report for the single supported manufacturing profile.
+The verified prototype flow is: author a small PLA spinner-like assembly, lower it deterministically into IR, and compile it into a typed in-memory plan/report plus deterministic STL strings for the single supported manufacturing profile.
 
 ```rust
 use matter_compiler::{PrototypePass, compile_prototype};
 
 let design = fidget_spinner::build_design();
 let compiled = compile_prototype(&design)?;
+let body_stl = compiled.stl_artifact("body").expect("body STL is available");
 
 assert_eq!(compiled.plan.parts.len(), 2);
 assert_eq!(compiled.report.executed_passes[0], PrototypePass::ValidatePrototypeContext);
+assert!(body_stl.starts_with("solid body\n"));
 ```
 
-This stays within the current prototype limits: single-process PLA on a Bambu Lab P1S, deterministic in-memory compilation, and no real CAD/STL/G-code generation.
+This stays within the current prototype limits: single-process PLA on a Bambu Lab P1S, deterministic in-memory compilation, and a spinner-first STL slice only. There is still no general CAD pipeline, arbitrary geometry backend, slicer integration, file export workflow, or G-code generation.
 
 ## Repository Structure
 
@@ -286,8 +288,8 @@ Goals for the first milestone:
 - define manufacturing context model
 - define minimal IR
 - implement a deterministic prototype compiler pipeline
-- return a typed in-memory manufacturing plan/report
-- keep the scope to a single PLA-on-P1S process with no real artefact generation yet
+- return a typed in-memory manufacturing plan/report and deterministic STL artefacts for the supported spinner example
+- keep the scope to a single spinner-first PLA-on-P1S process with no general CAD, slicer, or G-code generation yet
 
 ## Long-Term Vision
 

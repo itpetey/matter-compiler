@@ -2,6 +2,7 @@ use matter_context::{BuildVolume, ManufacturingContext, Material};
 use matter_ir::{Edge, EdgeKind, IrGraph, Node, NodeId, NodeKind, Value};
 use matter_sdk::{Design, LoweredDesign};
 
+use crate::spinner_geometry::synthesize_spinner_artifacts;
 use crate::{
     CompileError, PrototypeCompilation, PrototypeCompileReport, PrototypeConnectionKind,
     PrototypeConnectionPlan, PrototypeDimensionCheck, PrototypePartPlan, PrototypePass,
@@ -25,6 +26,7 @@ pub fn compile_lowered_prototype(
 
     ensure_prototype_context(&manufacturing)?;
     let analysis = analyse_graph(&graph, &manufacturing)?;
+    let artifacts = synthesize_spinner_artifacts(&graph)?;
 
     Ok(PrototypeCompilation {
         design_name: graph
@@ -43,12 +45,14 @@ pub fn compile_lowered_prototype(
             parts: analysis.parts,
             connections: analysis.connections,
         },
+        artifacts,
         report: PrototypeCompileReport {
             executed_passes: vec![
                 PrototypePass::ValidatePrototypeContext,
                 PrototypePass::ValidateLoweredGraph,
                 PrototypePass::ValidateBuildEnvelope,
                 PrototypePass::AssembleSingleProcessPlan,
+                PrototypePass::SynthesizeArtifacts,
             ],
             validated_part_count: analysis.part_count,
             validated_connection_count: analysis.connection_count,

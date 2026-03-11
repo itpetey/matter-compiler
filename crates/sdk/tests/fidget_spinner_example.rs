@@ -19,6 +19,37 @@ fn fidget_spinner_example_validates_and_compiles_end_to_end() {
     assert_eq!(lowered.manufacturing.target.machine.model, "P1S");
     assert_eq!(compiled.profile, PrototypeProfile::PlaOnP1sSingleProcess);
     assert_eq!(compiled.plan.material, Material::Pla);
+    assert_eq!(compiled.artifacts.len(), 2);
+    assert_eq!(compiled.artifacts[0].name, "body");
+    assert_eq!(compiled.artifacts[1].name, "cap");
+    let body_stl = compiled
+        .stl_artifact("body")
+        .expect("spinner body STL is available");
+    let cap_stl = compiled
+        .stl_artifact("cap")
+        .expect("spinner cap STL is available");
+
+    assert!(body_stl.starts_with("solid body\n"));
+    assert!(body_stl.ends_with("endsolid body\n"));
+    assert!(cap_stl.starts_with(concat!(
+        "solid cap\n",
+        "  facet normal 0.000000 0.000000 1.000000\n",
+        "    outer loop\n",
+        "      vertex 0.000000 0.000000 4.000000\n",
+        "      vertex 10.000000 0.000000 4.000000\n",
+        "      vertex 9.659258 2.588190 4.000000\n",
+        "    endloop\n",
+        "  endfacet\n",
+    )));
+    assert_eq!(
+        body_stl.matches("\n  facet normal ").count(),
+        compiled.artifacts[0].mesh.triangles.len()
+    );
+    assert_eq!(
+        cap_stl.matches("\n  facet normal ").count(),
+        compiled.artifacts[1].mesh.triangles.len()
+    );
+    assert_eq!(compiled.stl_artifact("missing_part"), None);
     assert_eq!(compiled.report.validated_part_count, 2);
     assert_eq!(compiled.report.validated_connection_count, 1);
     assert_eq!(compiled.report.validated_dimensions.len(), 3);
@@ -29,6 +60,7 @@ fn fidget_spinner_example_validates_and_compiles_end_to_end() {
             PrototypePass::ValidateLoweredGraph,
             PrototypePass::ValidateBuildEnvelope,
             PrototypePass::AssembleSingleProcessPlan,
+            PrototypePass::SynthesizeArtifacts,
         ]
     );
     assert_eq!(

@@ -1,6 +1,8 @@
 //! Prototype compilation pipeline for the current Matter milestone.
 
+mod artifact;
 mod pipeline;
+mod spinner_geometry;
 
 use std::{error::Error, fmt};
 
@@ -11,6 +13,10 @@ use matter_context::{
 use matter_ir::{EdgeKind, IrGraph, NodeKind};
 use matter_sdk::LoweringError;
 
+pub use artifact::{
+    PrototypeArtifact, PrototypeArtifactFormat, PrototypeLengthUnit, PrototypeTriangle,
+    PrototypeTriangleMesh, PrototypeVertex,
+};
 pub use pipeline::{compile_lowered_prototype, compile_prototype};
 
 /// Structured result returned when the prototype compiler accepts an input.
@@ -26,11 +32,27 @@ pub struct PrototypeCompilation {
     pub manufacturing: ManufacturingContext,
     /// Deterministic single-process manufacturing plan for the prototype.
     pub plan: PrototypePlan,
+    /// First-class printable artefacts produced for the current prototype backend.
+    ///
+    /// Each artefact carries an STL-oriented triangle mesh boundary so later passes can
+    /// serialize the accepted design without widening the compiler API beyond the current
+    /// spinner-first scope.
+    pub artifacts: Vec<PrototypeArtifact>,
     /// Structured validation and pass report for the compilation.
     pub report: PrototypeCompileReport,
 }
 
 impl PrototypeCompilation {
+    /// Returns the compiled artefact with the provided stable name.
+    pub fn artifact(&self, name: &str) -> Option<&PrototypeArtifact> {
+        self.artifacts.iter().find(|artifact| artifact.name == name)
+    }
+
+    /// Serializes the named compiled artefact as deterministic ASCII STL content.
+    pub fn stl_artifact(&self, name: &str) -> Option<String> {
+        self.artifact(name).map(PrototypeArtifact::to_ascii_stl)
+    }
+
     /// Returns the number of nodes in the compiled IR graph.
     pub fn node_count(&self) -> usize {
         self.graph.nodes().len()
@@ -119,6 +141,8 @@ pub enum PrototypePass {
     ValidateBuildEnvelope,
     /// Build the final single-process manufacturing plan and report.
     AssembleSingleProcessPlan,
+    /// Synthesize deterministic printable artefacts for the supported prototype shape.
+    SynthesizeArtifacts,
 }
 
 /// Successful dimensional validation performed during compilation.
@@ -174,6 +198,13 @@ pub enum CompileError {
         connection: String,
         /// Unsupported connection kind label found in the graph.
         kind: String,
+    },
+    /// The validated prototype graph does not match the current spinner-only synthesis path.
+    UnsupportedPrototypeShape {
+        /// Lowered design name.
+        design: String,
+        /// Reason the shape fell outside the current geometry synthesis scope.
+        reason: String,
     },
     /// A part does not have exactly one prototype material assignment.
     InvalidPartMaterialAssignments {
@@ -237,6 +268,9 @@ impl fmt::Display for CompileError {
             }
             Self::UnsupportedConnectionKind { connection, kind } => {
                 write!(f, "unsupported connection kind for {connection}: {kind}")
+            }
+            Self::UnsupportedPrototypeShape { design, reason } => {
+                write!(f, "unsupported prototype shape for {design}: {reason}")
             }
             Self::InvalidPartMaterialAssignments { part, count } => write!(
                 f,
