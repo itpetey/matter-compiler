@@ -1,6 +1,12 @@
 [workspace]
 resolver = "2"
-members = ["crates/compiler", "crates/context", "crates/ir", "crates/sdk"]
+members = [
+    "crates/compiler",
+    "crates/context",
+    "crates/ir",
+    "crates/sdk",
+    "examples/fidget_spinner",
+]
 
 [workspace.package]
 version = "0.1.0"

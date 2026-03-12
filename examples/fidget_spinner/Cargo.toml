@@ -1,0 +1,14 @@
+[package]
+name = "fidget-spinner"
+version.workspace = true
+edition.workspace = true
+description = "Standalone fidget spinner example for the Matter compiler workspace"
+readme = "README.md"
+repository.workspace = true
+license.workspace = true
+
+[dependencies]
+matter-compiler = { path = "../../crates/compiler", version = "0.1.0" }
+matter-context = { path = "../../crates/context", version = "0.1.0" }
+matter-ir = { path = "../../crates/ir", version = "0.1.0" }
+matter-sdk = { path = "../../crates/sdk", version = "0.1.0" }

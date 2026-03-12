@@ -1,6 +1,4 @@
-#[path = "../examples/fidget_spinner.rs"]
-mod fidget_spinner;
-
+use fidget_spinner::build_design;
 use matter_compiler::{PrototypePass, PrototypeProfile, compile_prototype};
 use matter_context::Material;
 use matter_ir::{EdgeKind, NodeKind, Value};
@@ -8,7 +6,7 @@ use matter_sdk::AuthorKind;
 
 #[test]
 fn fidget_spinner_example_validates_and_compiles_end_to_end() {
-    let design = fidget_spinner::build_design();
+    let design = build_design();
 
     assert_eq!(design.validate(), Ok(()));
 
@@ -74,7 +72,7 @@ fn fidget_spinner_example_validates_and_compiles_end_to_end() {
     );
     assert_eq!(
         graph.metadata()["sdk.source"],
-        Value::String("crates/sdk/examples/fidget_spinner.rs".into())
+        Value::String("examples/fidget_spinner/src/lib.rs".into())
     );
     assert!(graph.nodes().values().any(|node| node.name == "spinner"));
     assert!(graph.nodes().values().any(|node| node.name == "body"));

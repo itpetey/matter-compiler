@@ -1,6 +1,4 @@
-#[path = "../../sdk/examples/fidget_spinner.rs"]
-mod fidget_spinner;
-
+use fidget_spinner::build_design;
 use matter_compiler::{
     PrototypeArtifactFormat, PrototypeConnectionKind, PrototypeLengthUnit, PrototypePass,
     PrototypeProfile, compile_lowered_prototype, compile_prototype,
@@ -9,7 +7,7 @@ use matter_context::Material;
 
 #[test]
 fn compiles_the_sdk_fidget_spinner_example_end_to_end() {
-    let design = fidget_spinner::build_design();
+    let design = build_design();
 
     let authored = compile_prototype(&design).expect("authored design compiles");
     let lowered = compile_lowered_prototype(design.lower_to_ir().expect("design lowers"))

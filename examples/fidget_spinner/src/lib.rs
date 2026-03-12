@@ -1,10 +1,12 @@
-use matter_compiler::compile_prototype;
+//! Standalone fidget spinner example built with the Matter SDK.
+
 use matter_context::{ManufacturingContext, Material};
 use matter_sdk::{
     Assembly, AuthorKind, Connection, ConnectionKind, Constraint, Design, Interface, InterfaceKind,
     InterfaceRef, Part, Provenance, Requirement, TypedValue,
 };
 
+/// Builds the sample fidget spinner design used across the workspace.
 pub fn build_design() -> Design {
     Design::new(
         "fidget_spinner",
@@ -35,7 +37,7 @@ pub fn build_design() -> Design {
         Provenance::new(
             AuthorKind::Human,
             "prototype-example",
-            "crates/sdk/examples/fidget_spinner.rs",
+            "examples/fidget_spinner/src/lib.rs",
         ),
     )
     .with_requirement(Requirement::new(
@@ -43,24 +45,4 @@ pub fn build_design() -> Design {
         TypedValue::Text("fidget_toy".into()),
     ))
     .with_requirement(Requirement::new("max_diameter", TypedValue::LengthMm(60.0)))
-}
-
-#[allow(dead_code)]
-fn main() {
-    let design = build_design();
-    let compiled = compile_prototype(&design).expect("example design compiles");
-
-    println!("Example: {}", design.name);
-    println!(
-        "Target: {} {} via {:?}",
-        compiled.plan.machine.manufacturer, compiled.plan.machine.model, compiled.plan.process,
-    );
-    println!("Material: {:?}", compiled.plan.material);
-    println!("Validated parts: {}", compiled.report.validated_part_count);
-    println!("Executed passes: {:?}", compiled.report.executed_passes);
-    println!(
-        "Compiled graph: {} nodes, {} edges",
-        compiled.node_count(),
-        compiled.edge_count()
-    );
 }

@@ -3,9 +3,20 @@
 version = 4
 
 [[package]]
+name = "fidget-spinner"
+version = "0.1.0"
+dependencies = [
+ "matter-compiler",
+ "matter-context",
+ "matter-ir",
+ "matter-sdk",
+]
+
+[[package]]
 name = "matter-compiler"
 version = "0.1.0"
 dependencies = [
+ "fidget-spinner",
  "matter-context",
  "matter-ir",
  "matter-sdk",

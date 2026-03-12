@@ -11,3 +11,6 @@ license.workspace = true
 matter-context = { path = "../context" }
 matter-ir = { path = "../ir", version = "0.1.0" }
 matter-sdk = { path = "../sdk", version = "0.1.0" }
+
+[dev-dependencies]
+fidget-spinner = { path = "../../examples/fidget_spinner", version = "0.1.0" }
